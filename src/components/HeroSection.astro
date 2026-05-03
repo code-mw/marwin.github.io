@@ -5,6 +5,11 @@ import ContactLinks from "./ContactLinks.astro";
 import avatarSrc from "../assets/avatar.jpg";
 ---
 
+<!--
+  Inline FOUC guard: must run synchronously before paint, so it cannot
+  import a shared helper. The same predicate is mirrored in the deferred
+  module script below — keep them in sync.
+-->
 <script is:inline>
   (function () {
     if (
@@ -38,7 +43,7 @@ import avatarSrc from "../assets/avatar.jpg";
         {profile.tagline}
       </p>
       <div id="hero-links">
-        <ContactLinks email={profile.email} linkedin={profile.linkedin} />
+        <ContactLinks />
       </div>
     </div>
   </div>
@@ -46,6 +51,12 @@ import avatarSrc from "../assets/avatar.jpg";
 
 <style>
   @layer components {
+    :root {
+      --hero-shrink-delay: 800ms;
+      --hero-fade-delay: 750ms;
+      --hero-shrink-duration: 850ms;
+    }
+
     #hero-stage {
       position: sticky;
       top: 0;
@@ -57,8 +68,8 @@ import avatarSrc from "../assets/avatar.jpg";
       overflow: hidden;
       padding: clamp(1rem, 4svh, 2.5rem) 0;
       transition:
-        height 0.85s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color 0.3s ease 0.8s;
+        height var(--hero-shrink-duration) cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.3s ease var(--hero-shrink-delay);
       border-bottom: 1px solid transparent;
     }
 
@@ -78,7 +89,8 @@ import avatarSrc from "../assets/avatar.jpg";
       flex-direction: row;
       align-items: center;
       gap: min(clamp(1.25rem, 4vw, 3.5rem), 4svh);
-      transition: transform 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform var(--hero-shrink-duration)
+        cubic-bezier(0.4, 0, 0.2, 1);
       padding: 0 clamp(1.5rem, 5vw, 2.5rem);
     }
 
@@ -246,13 +258,17 @@ import avatarSrc from "../assets/avatar.jpg";
       );
     } else {
       sessionStorage.setItem("hero-animated", "1");
+      const ms = (name: string) =>
+        parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue(name),
+        );
       setTimeout(() => {
         stage?.classList.add("shrunk");
         setTimeout(() => {
           nav?.classList.add("visible");
           content?.classList.add("visible");
-        }, 750);
-      }, 800);
+        }, ms("--hero-fade-delay"));
+      }, ms("--hero-shrink-delay"));
     }
   });
 </script>

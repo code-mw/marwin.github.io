@@ -5,11 +5,7 @@ interface Props {
 const { paragraphs } = Astro.props;
 ---
 
-<section
-  id="about"
-  class="site-container pt-16 pb-8"
-  style="scroll-margin-top: calc(20svh + 3rem)"
->
+<section id="about" class="site-container pt-16 pb-8">
   <h2 class="section-heading text-gray-900 dark:text-white" id="about-heading">
     About
   </h2>
@@ -135,13 +131,13 @@ const { paragraphs } = Astro.props;
     #ai-card-icon svg {
       width: 1.25rem;
       height: 1.25rem;
-      color: #a5b4fc;
+      color: var(--color-indigo-300);
     }
 
     #ai-card-body {
       font-size: 0.9375rem;
       line-height: 1.5;
-      color: #cbd5e1;
+      color: var(--color-slate-300);
       margin: 0;
       font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
     }

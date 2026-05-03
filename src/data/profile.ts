@@ -41,17 +41,17 @@ export interface Profile {
   cvFilename: string;
 }
 
+const LEVEL_LABELS = [
+  "",
+  "Familiar",
+  "Intermediate",
+  "Proficient",
+  "Advanced",
+  "Expert",
+] as const;
+
 export const levelLabel = (level: number): string =>
-  (
-    [
-      "",
-      "Familiar",
-      "Intermediate",
-      "Proficient",
-      "Advanced",
-      "Expert",
-    ] as const
-  )[level] ?? "";
+  LEVEL_LABELS[level] ?? "";
 
 export const profile: Profile = {
   firstName: "Marcin",

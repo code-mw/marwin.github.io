@@ -93,7 +93,7 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
       align-items: center;
       justify-content: space-between;
       padding: 0.875rem 1.25rem;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid var(--color-gray-200);
       flex-shrink: 0;
       background: white;
       position: sticky;
@@ -107,14 +107,14 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
       gap: 0.375rem;
       font-size: 0.875rem;
       font-weight: 500;
-      color: #6b7280;
+      color: var(--color-gray-500);
       text-decoration: none;
       transition: color 0.15s ease;
       min-width: 80px;
     }
 
     #chat-back:hover {
-      color: #111827;
+      color: var(--color-gray-900);
     }
 
     #chat-back svg {
@@ -128,14 +128,14 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
       gap: 0.5rem;
       font-size: 0.9375rem;
       font-weight: 600;
-      color: #111827;
+      color: var(--color-gray-900);
     }
 
     #chat-status-dot {
       width: 0.5rem;
       height: 0.5rem;
       border-radius: 9999px;
-      background: #4ade80;
+      background: var(--color-green-400);
       flex-shrink: 0;
     }
 
@@ -171,18 +171,18 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
 
     :global(.chat-bubble--assistant) {
       align-self: flex-start;
-      background: #f3f4f6;
-      color: #111827;
+      background: var(--color-gray-100);
+      color: var(--color-gray-900);
       border-bottom-left-radius: 0.25rem;
     }
 
     :global(.chat-bubble--assistant.error) {
-      background: #fef2f2;
-      color: #b91c1c;
+      background: var(--color-red-50);
+      color: var(--color-red-700);
     }
 
     :global(.chat-bubble--assistant.typing) {
-      color: #9ca3af;
+      color: var(--color-gray-400);
     }
 
     :global(.chat-bubble--assistant p) {
@@ -240,7 +240,7 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
 
     #chat-input-bar {
       flex-shrink: 0;
-      border-top: 1px solid #e5e7eb;
+      border-top: 1px solid var(--color-gray-200);
       padding: 1rem 1.25rem;
       background: white;
     }
@@ -253,19 +253,19 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
 
     #chat-input {
       flex: 1;
-      border: 1px solid #d1d5db;
+      border: 1px solid var(--color-gray-300);
       border-radius: 0.75rem;
       padding: 0.75rem 1rem;
       font-size: 0.9375rem;
       font-family: inherit;
       background: white;
-      color: #111827;
+      color: var(--color-gray-900);
       outline: none;
       transition: border-color 0.15s ease;
     }
 
     #chat-input:focus {
-      border-color: #2563eb;
+      border-color: var(--color-blue-600);
     }
 
     #chat-input:disabled {
@@ -278,7 +278,7 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
       height: 2.75rem;
       flex-shrink: 0;
       border-radius: 0.75rem;
-      background: #2563eb;
+      background: var(--color-blue-600);
       color: white;
       border: none;
       cursor: pointer;
@@ -289,7 +289,7 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
     }
 
     #chat-send:hover {
-      background: #1d4ed8;
+      background: var(--color-blue-700);
     }
 
     #chat-send:disabled {
@@ -304,54 +304,54 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
 
     @media (prefers-color-scheme: dark) {
       #chat-header {
-        background: #0f172a;
-        border-bottom-color: #1e293b;
+        background: var(--color-slate-900);
+        border-bottom-color: var(--color-slate-800);
       }
 
       #chat-back {
-        color: #94a3b8;
+        color: var(--color-slate-400);
       }
 
       #chat-back:hover {
-        color: #f1f5f9;
+        color: var(--color-slate-100);
       }
 
       #chat-title {
-        color: #f1f5f9;
+        color: var(--color-slate-100);
       }
 
       :global(.chat-bubble--user) {
         background: #1e3a5f;
-        color: #bfdbfe;
+        color: var(--color-blue-200);
       }
 
       :global(.chat-bubble--assistant) {
-        background: #1e293b;
-        color: #f1f5f9;
+        background: var(--color-slate-800);
+        color: var(--color-slate-100);
       }
 
       :global(.chat-bubble--assistant.error) {
-        background: #450a0a;
-        color: #fca5a5;
+        background: var(--color-red-950);
+        color: var(--color-red-300);
       }
 
       :global(.chat-bubble--assistant.typing) {
-        color: #475569;
+        color: var(--color-slate-600);
       }
 
       #chat-input-bar {
-        background: #0f172a;
-        border-top-color: #1e293b;
+        background: var(--color-slate-900);
+        border-top-color: var(--color-slate-800);
       }
 
       #chat-input {
-        background: #1e293b;
-        border-color: #334155;
-        color: #f1f5f9;
+        background: var(--color-slate-800);
+        border-color: var(--color-slate-700);
+        color: var(--color-slate-100);
       }
 
       #chat-input:focus {
-        border-color: #3b82f6;
+        border-color: var(--color-blue-500);
       }
     }
 
@@ -381,9 +381,22 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
   import { marked } from "marked";
   import DOMPurify from "dompurify";
 
-  marked.setOptions({ breaks: true });
+  marked.setOptions({ breaks: true, async: false });
 
-  const page = document.getElementById("chat-page") as HTMLElement;
+  function byId<T extends HTMLElement>(id: string): T {
+    const el = document.getElementById(id);
+    if (!el) throw new Error(`Missing #${id}`);
+    return el as T;
+  }
+
+  const page = byId<HTMLDivElement>("chat-page");
+  const messagesEl = byId<HTMLDivElement>("chat-messages");
+  const form = byId<HTMLFormElement>("chat-form");
+  const input = byId<HTMLInputElement>("chat-input");
+  const sendBtn = byId<HTMLButtonElement>("chat-send");
+
+  const workerUrl = page.dataset.workerUrl;
+  if (!workerUrl) console.warn("PUBLIC_WORKER_URL is not set");
 
   function syncHeight() {
     page.style.height = `${window.visualViewport?.height ?? window.innerHeight}px`;
@@ -396,17 +409,15 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
   });
   syncHeight();
 
-  const client = createClient({ workerUrl: page.dataset.workerUrl! });
-
-  const messagesEl = document.getElementById("chat-messages") as HTMLDivElement;
-  const form = document.getElementById("chat-form") as HTMLFormElement;
-  const input = document.getElementById("chat-input") as HTMLInputElement;
-  const sendBtn = document.getElementById("chat-send") as HTMLButtonElement;
+  const client = createClient({ workerUrl: workerUrl ?? "" });
+  const canHover = !window.matchMedia("(hover: none)").matches;
 
   const messages: Message[] = [];
 
   function renderMarkdown(text: string): string {
-    return DOMPurify.sanitize(marked.parse(text) as string);
+    const html = marked.parse(text);
+    if (typeof html !== "string") return DOMPurify.sanitize(text);
+    return DOMPurify.sanitize(html);
   }
 
   function appendBubble(
@@ -483,13 +494,9 @@ const WORKER_URL = import.meta.env.PUBLIC_WORKER_URL;
     } finally {
       input.disabled = false;
       sendBtn.disabled = false;
-      if (!window.matchMedia("(hover: none)").matches) {
-        input.focus();
-      }
+      if (canHover) input.focus();
     }
   });
 
-  if (!window.matchMedia("(hover: none)").matches) {
-    input.focus();
-  }
+  if (canHover) input.focus();
 </script>

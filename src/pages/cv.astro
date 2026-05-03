@@ -23,7 +23,7 @@ import avatarImg from "../assets/avatar.jpg";
       <span class="print-bar-label"
         >{profile.firstName} {profile.lastName} &mdash; CV</span
       >
-      <button onclick="window.print()" class="print-btn">
+      <button id="cv-print-btn" type="button" class="print-btn">
         <svg
           width="14"
           height="14"
@@ -112,8 +112,7 @@ import avatarImg from "../assets/avatar.jpg";
                         <span class="skill-name">{skill.name}</span>
                         <div
                           class="skill-pips"
-                          aria-label={`${levelLabel(skill.level)}`}
-                          title={levelLabel(skill.level)}
+                          aria-label={levelLabel(skill.level)}
                         >
                           {[1, 2, 3, 4, 5].map((i) => (
                             <span
@@ -554,3 +553,9 @@ import avatarImg from "../assets/avatar.jpg";
 
   }
 </style>
+
+<script>
+  document
+    .getElementById("cv-print-btn")
+    ?.addEventListener("click", () => window.print());
+</script>
