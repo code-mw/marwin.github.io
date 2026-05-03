@@ -1,10 +1,6 @@
 ---
 import { profile, levelLabel } from "../data/profile";
 import avatarImg from "../assets/avatar.jpg";
-
-const linkedinHandle = profile.linkedin
-  .replace(/^https?:\/\/www\.linkedin\.com\/in\//, "")
-  .replace(/\/$/, "");
 ---
 
 <!doctype html>
@@ -52,17 +48,15 @@ const linkedinHandle = profile.linkedin
           <div class="cv-identity">
             <h1 class="cv-name">{profile.firstName} {profile.lastName}</h1>
             <p class="cv-role">{profile.tagline}</p>
+            <a href={profile.website} class="cv-link cv-website">{profile.websiteHandle}</a>
+            <div class="cv-contacts">
+              <span class="cv-contacts-label">Contacts</span>
+              <a href={`mailto:${profile.email}`} class="cv-link">{profile.email}</a>
+              <a href={profile.linkedin} class="cv-link">linkedin/{profile.linkedinHandle}</a>
+            </div>
           </div>
           <div class="cv-contact-block">
             <img src={avatarImg.src} alt="" class="cv-avatar" />
-            <div class="cv-links">
-              <a href={`mailto:${profile.email}`} class="cv-link"
-                >{profile.email}</a
-              >
-              <a href={profile.linkedin} class="cv-link"
-                >linkedin/{linkedinHandle}</a
-              >
-            </div>
           </div>
         </header>
 
@@ -75,6 +69,35 @@ const linkedinHandle = profile.linkedin
             <section class="cv-section">
               <h2 class="cv-section-label">Profile</h2>
               {profile.about.map((p) => <p class="cv-para">{p}</p>)}
+            </section>
+
+            <section class="cv-section">
+              <h2 class="cv-section-label">Experience</h2>
+              {profile.experience.map((entry, i) => (
+                <div class="exp-entry">
+                  <div class="exp-company-row">
+                    {entry.current && <span class="exp-current-badge">Currently</span>}
+                    <span class="exp-company">{entry.company}</span>
+                    {(entry.employmentType || entry.totalDuration) && (
+                      <span class="exp-company-meta">
+                        {[entry.employmentType, entry.totalDuration].filter(Boolean).join(" · ")}
+                      </span>
+                    )}
+                  </div>
+                  {entry.roles.map((role, i) => (
+                    <div class={`exp-role${i > 0 ? " exp-role--subsequent" : ""}`}>
+                      <div class="exp-role-header">
+                        <span class="exp-role-title">{role.title}</span>
+                        <span class="exp-role-period">{role.period}</span>
+                      </div>
+                      <span class="exp-role-location">{role.location}</span>
+                      <ul class="exp-bullets">
+                        {role.bullets.map((b) => <li class="exp-bullet">{b}</li>)}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </section>
           </main>
 
@@ -239,10 +262,6 @@ const linkedinHandle = profile.linkedin
   }
 
   .cv-contact-block {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.2rem;
     flex-shrink: 0;
   }
 
@@ -254,17 +273,36 @@ const linkedinHandle = profile.linkedin
     object-position: center 20%;
   }
 
-  .cv-links {
+  .cv-website {
+    display: block;
+    margin-top: 0.35rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .cv-contacts {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
     gap: 0.2rem;
+    margin-top: 0.75rem;
+  }
+
+  .cv-contacts-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.15rem;
   }
 
   .cv-link {
     font-size: 0.8125rem;
-    color: var(--ink-mid);
-    font-weight: 400;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .cv-link:hover {
+    text-decoration: underline;
   }
 
   /* ── Divider ──────────────────────────────────────── */
@@ -372,6 +410,110 @@ const linkedinHandle = profile.linkedin
     background: var(--border);
   }
 
+  /* ── Experience ───────────────────────────────────── */
+  .exp-entry {
+    margin-bottom: 1.25rem;
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+  }
+  .exp-entry:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .exp-company-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .exp-company {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .exp-company-meta {
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+  }
+
+  .exp-current-badge {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 3px;
+    padding: 0.1em 0.4em;
+    line-height: 1.6;
+    flex-shrink: 0;
+  }
+
+  .exp-role {
+    margin-bottom: 0.75rem;
+  }
+  .exp-role--subsequent {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--border);
+  }
+  .exp-role:last-child {
+    margin-bottom: 0;
+  }
+
+  .exp-role-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .exp-role-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .exp-role-period {
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .exp-role-location {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .exp-bullet {
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--ink-mid);
+    padding-left: 0.85rem;
+    position: relative;
+  }
+  .exp-bullet::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: var(--ink-muted);
+  }
+
   /* ── Print ────────────────────────────────────────── */
   @media print {
     @page {
@@ -406,12 +548,9 @@ const linkedinHandle = profile.linkedin
     .cv-para {
       color: #334155;
     }
-    .cv-link {
-      color: #334155;
-    }
-
     .pip--off {
       background: #e2e8f0;
     }
+
   }
 </style>

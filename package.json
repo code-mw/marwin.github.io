@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@iconify-json/simple-icons": "^1.2.79",
+    "vite": "^7.3.2",
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.1.8",
     "astro-icon": "^1.1.5",
